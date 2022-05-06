@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 import faker from 'faker'
 import Dish from '../model/User'
-import randtoken from 'rand-token';
 const initFakeRoute = (app) => {
     router.get('/generate-fake-data', async(req, res, next) => {
         for (let i = 0; i < 100; i++) {
@@ -14,9 +13,7 @@ const initFakeRoute = (app) => {
             newprd.gender = 'female'
             newprd.phone = faker.phone.phoneNumber();
             newprd.isActive = true;
-            newprd.role = 4;
-            newprd.token = randtoken.generate(20);
-
+            // newprd.role = 4;
             await newprd.save();
         }
         res.send('OK');

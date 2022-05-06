@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import randtoken from 'rand-token';
 import { APIfeartures } from "../lib/features";
 
-const api = "https://fa1c-2402-9d80-24b-4ad9-6454-768-b251-97a5.ngrok.io";
+const api = "https://0f02-2402-9d80-24b-911a-8402-bdd-5e12-a27f.ngrok.io";
 
 const userCtrl = {
     userLogin: async(req, res) => {
@@ -69,7 +69,6 @@ const userCtrl = {
             return res.status(200).json(newUser);
         } catch (error) {
             return res.status(500).json(error);
-            r
         }
     },
     updateUser: async(req, res) => {
@@ -233,9 +232,10 @@ const userCtrl = {
             // console.log(new Date(date.getTime()) < date2.getTime())
             if (date > date2) {
                 console.log(token._id)
-                await User.updateOne({ _id: token._id }, { isActive: true });
-                await Token.deleteOne({ _id: token._id });
-                return res.redirect('http://localhost:3006/login');
+                await User.updateOne({ _id: token.user._id }, { isActive: true });
+                //await Token.deleteOne({ _id: token._id });
+                // return res.redirect('http://localhost:3006/login');
+                return res.send("OK")
             } else {
                 res.send(html);
             }
