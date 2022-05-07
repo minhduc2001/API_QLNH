@@ -13,6 +13,8 @@ const initUserRoute = (app) => {
     // lay tat ca user ra
     router.get('/users', userCtrl.getAllUser);
 
+    router.delete('/users/:id', userCtrl.deleteUser)
+
     router.put('/users/update', userCtrl.updateUser);
     // active user
     router.get('/active/:token', userCtrl.activeUser);

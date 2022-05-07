@@ -36,8 +36,9 @@ const orderCtrl = {
             order.timeDelivery = new Date(req.body.timeDelivery);
             console.log(order);
             await order.save();
+            const newOrder = await Order.findById(order._id).populate('orderer').populate('dishes');
 
-            return res.status(200).json(order);
+            return res.status(200).json(newOrder);
         } catch (error) {
             return res.status(500).json(error);
         }
