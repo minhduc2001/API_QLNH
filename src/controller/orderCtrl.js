@@ -15,7 +15,7 @@ const orderCtrl = {
     },
     getOderByStatus: async(req, res) => {
         try {
-            const order = await Order.findAll({ status: req.params.status })
+            const order = await Order.find({ status: req.params.status })
                 .populate('orderer')
                 .populate('dishes');
 
