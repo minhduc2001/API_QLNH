@@ -1,15 +1,31 @@
 import Order from "../model/Order";
-import { APIfeartures } from "../lib/features";
+
 const orderCtrl = {
     getAllOrder: async(req, res) => {
         try {
-            const orders = new APIfeartures(await Order.find()
-                    .populate('orderer')
-                    .populate('dishes'), query)
-                .filtering();
+            const orders = await Order.find()
+                .populate('orderer')
+                .populate('dishes')
 
 
             return res.status(200).json(orders);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
+    getOderByStatus: async(req, res) => {
+        try {
+            const order = await Order.findOne({ status: req.params.status })
+                .populate('orderer')
+                .populate('dishes');
+
+            console.log(req.params.status)
+            console.log(order);
+            if (!order) {
+                return res.status(404).json("con cai nit!");
+            }
+
+            return res.status(200).json(order);
         } catch (error) {
             return res.status(500).json(error);
         }

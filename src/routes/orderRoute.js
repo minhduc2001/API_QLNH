@@ -6,6 +6,8 @@ const router = express.Router();
 const initOrderRoute = (app) => {
     router.get('/orders', orderCtrl.getAllOrder);
 
+    router.get('/orders/status/:status', orderCtrl.getOderByStatus);
+
     router.get('/orders/:id', orderCtrl.getOrder);
 
     router.post('/orders', orderCtrl.createOrder);
