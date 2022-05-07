@@ -31,6 +31,7 @@ const userCtrl = {
             if (!user.isActive) {
                 return res.send({ err: 2001 });
             }
+            if (!user.isLock) return res.send({ err: 2001 });
             return res.status(200).json(user)
         } catch (error) {
             return res.status(500).json(error);
@@ -38,8 +39,9 @@ const userCtrl = {
     },
     userRegister: async(req, res) => {
         try {
-            // kiem tra email da ton tai hay chua
-            if (await User.findOne({ email: req.body.email })) {
+            const u = await User.findOne({ email: req.body.email })
+                // kiem tra email da ton tai hay chua
+            if (u) {
                 console.log(u)
                 return res.send({ err: 2007 });
             }
@@ -75,10 +77,10 @@ const userCtrl = {
         try {
             console.log(req.body);
             const body = req.body;
-            const salt = await bcrypt.genSalt(10);
-            const hashed = await bcrypt.hash(req.body.password, salt);
-            body.password = hashed;
-            const user = await User.findOneAndUpdate({ email: req.body.email }, body);
+            // const salt = await bcrypt.genSalt(10);
+            // const hashed = await bcrypt.hash(req.body.password, salt);
+            // body.password = hashed;
+            const user = await User.findOneAndUpdate({ email: body.email }, body);
             if (!user) {
                 return res.send({ err: 2007 });
             }
@@ -94,8 +96,8 @@ const userCtrl = {
         try {
             const features = new APIfeartures(User.find(), req.query)
                 // .paginating() // phân trang
-                .sorting() // sắp xếp
-                .searching() // tìm kiếm
+                // .sorting() // sắp xếp
+                // .searching() // tìm kiếm
                 .filtering(); // lọc
 
             const result = await Promise.allSettled([
@@ -118,6 +120,19 @@ const userCtrl = {
             }
 
             return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
+    deleteUser: async(req, res) => {
+        try {
+            const user = await User.findByIdAndDelete(req.params.id);
+
+            if (!user) {
+                return res.status({ err: 2007 })
+            }
+
+            return res.status(200);
         } catch (error) {
             return res.status(500).json(error);
         }
@@ -233,7 +248,7 @@ const userCtrl = {
             if (date > date2) {
                 console.log(token._id)
                 await User.updateOne({ _id: token.user._id }, { isActive: true });
-                //await Token.deleteOne({ _id: token._id });
+                await Token.deleteOne({ _id: token._id });
                 // return res.redirect('http://localhost:3006/login');
                 return res.send("OK")
             } else {

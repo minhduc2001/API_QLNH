@@ -1,18 +1,20 @@
 import Order from "../model/Order";
-
+import { APIfeartures } from "../lib/features";
 const orderCtrl = {
-    getAllOrder: async (req, res) => {
+    getAllOrder: async(req, res) => {
         try {
-            const orders = await Order.find()
-                .populate('orderer')
-                .populate('dishes');
+            const orders = new APIfeartures(await Order.find()
+                    .populate('orderer')
+                    .populate('dishes'), query)
+                .filtering();
+
 
             return res.status(200).json(orders);
         } catch (error) {
             return res.status(500).json(error);
         }
     },
-    getOrder: async (req, res) => {
+    getOrder: async(req, res) => {
         try {
             const order = await Order.findById(req.params.id)
                 .populate('orderer')
@@ -27,12 +29,12 @@ const orderCtrl = {
             return res.status(500).json(error);
         }
     },
-    createOrder: async (req, res) => {
+    createOrder: async(req, res) => {
         try {
             const order = await new Order(req.body);
-			console.log(req.body.timeDelivery);
-			order.timeDelivery = new Date(req.body.timeDelivery);
-			console.log(order);
+            console.log(req.body.timeDelivery);
+            order.timeDelivery = new Date(req.body.timeDelivery);
+            console.log(order);
             await order.save();
 
             return res.status(200).json(order);
@@ -40,12 +42,11 @@ const orderCtrl = {
             return res.status(500).json(error);
         }
     },
-    updateOrder: async (req, res) => {
+    updateOrder: async(req, res) => {
         try {
             const order = await Order.findByIdAndUpdate(
                 req.params.id,
-                req.body,
-                { new: true }
+                req.body, { new: true }
             ).populate('orderer').populate('dishes');
 
             if (!order) {
@@ -57,7 +58,7 @@ const orderCtrl = {
             return res.status(500).json(error);
         }
     },
-    deleteOrder: async (req, res) => {
+    deleteOrder: async(req, res) => {
         try {
             const order = await Order.findByIdAndDelete(req.params.id);
 

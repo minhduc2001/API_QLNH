@@ -27,8 +27,8 @@ const orderSchema = new mongoose.Schema({
         default: ''
     },
     status: {
-        type: Boolean,
-        default: false
+        type: String,
+        default: 'Pending'
     },
     timeDelivery: {
         type: Date,
