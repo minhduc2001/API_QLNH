@@ -268,11 +268,11 @@ const userCtrl = {
             if (!user) {
                 return res.send({ err: 2007 });
             }
-
+            console.log(user);
             await activeUser.sendMail(user.email, password, user.name);
             res.send(200).json(user);
         } catch (error) {
-            res.send(html);
+            res.send(500).json(error);
         }
     }
 }
