@@ -17,7 +17,8 @@ const orderCtrl = {
         try {
             const orders = await Order.find({ orderer: req.params.c_id })
                 .populate('orderer')
-                .populate('dishes');
+                .populate('dishes')
+                .sort({createdAt: -1});
 
 
             return res.status(200).json(orders);

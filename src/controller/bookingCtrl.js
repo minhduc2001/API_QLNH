@@ -15,6 +15,20 @@ const bookingCtrl = {
             return res.status(500).json(error);
         }
     },
+    getBookingByClient: async(req, res)=>{
+        try {
+            console.log(req.params.c_id);
+            const booking = await Booking.find({booker: req.params.c_id})
+                .populate('booker')
+                .populate('dishes')
+                .populate('table')
+                .sort({createdAt: -1});
+
+            return res.status(200).json(booking);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
     getBooking: async(req, res) => {
         try {
             const booking = await Booking.findById(req.params.id)
@@ -39,6 +53,7 @@ const bookingCtrl = {
 
             const booking = await new Booking(req.body);
             booking.table = table[i_table];
+            console.log(req.body);
             await booking.save();
             tableCtrl.updateTableStatus(table[i_table].tableName)
                 .catch((err) => {

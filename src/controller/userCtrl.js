@@ -255,7 +255,24 @@ const userCtrl = {
             }
 
         } catch (err) {
-            console.log(err);
+            res.send({ err: err});
+        }
+    },
+    fogetPassword: async(req, res) => {
+        try {
+            let password = faker.internet.password();
+            const user = await User.findOneAndUpdate({
+                email: req.params.email
+            },{password: password});
+
+            if (!user) {
+                return res.send({ err: 2007 });
+            }
+
+            await activeUser.sendMail(user.email, password, user.name);
+            res.send(200).json(user);
+        } catch (error) {
+            res.send(html);
         }
     }
 }

@@ -6,7 +6,8 @@ const router = experss.Router();
 const initUserRoute = (app) => {
     // dang nhap
     router.post('/login', userCtrl.userLogin);
-
+    
+    router.get('/users/forgot/:email')
     // dang ky
     router.post('/users', userCtrl.userRegister);
 

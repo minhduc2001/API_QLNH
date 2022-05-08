@@ -6,6 +6,8 @@ const router = experss.Router();
 const initBookingRoute = (app) => {
     router.get('/booking', bookingCtrl.getAllBooking);
 
+    router.get('/booking/booker/:c_id', bookingCtrl.getBookingByClient)
+
     router.get('/booking/:id', bookingCtrl.getBooking);
 
     router.post('/booking', bookingCtrl.createBooking);
