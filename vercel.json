@@ -3,9 +3,5 @@
     "builds": [{
         "src": "./src/server.js",
         "use": "@vercel/node"
-    }],
-    "routers": [{
-        "src": "./src/routes/(.*)",
-        "dest": "/"
     }]
 }
