@@ -249,8 +249,7 @@ const userCtrl = {
                 console.log(token._id)
                 await User.updateOne({ _id: token.user._id }, { isActive: true });
                 await Token.deleteOne({ _id: token._id });
-                // return res.redirect('http://localhost:3006/login');
-                return res.send("OK")
+                return res.redirect('http://localhost:3006/login');
             } else {
                 res.send(html);
             }
