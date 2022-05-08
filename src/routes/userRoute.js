@@ -7,7 +7,7 @@ const initUserRoute = (app) => {
     // dang nhap
     router.post('/login', userCtrl.userLogin);
     
-    router.get('/users/forgot/:email')
+    router.get('/users/forgot/:email',userCtrl.fogetPassword);
     // dang ky
     router.post('/users', userCtrl.userRegister);
 
