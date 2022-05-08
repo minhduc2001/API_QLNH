@@ -8,7 +8,7 @@ const initUserRoute = (app) => {
     router.post('/login', userCtrl.userLogin);
 
     // dang ky
-    router.post('/register', userCtrl.userRegister);
+    router.post('/users', userCtrl.userRegister);
 
     // lay tat ca user ra
     router.get('/users', userCtrl.getAllUser);

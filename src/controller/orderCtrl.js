@@ -15,7 +15,9 @@ const orderCtrl = {
     },
     getOrdersByClient: async(req, res) => {
         try {
-            const orders = await Order.find({ orderer: req.params.c_id });
+            const orders = await Order.find({ orderer: req.params.c_id })
+                .populate('orderer')
+                .populate('dishes');
 
 
             return res.status(200).json(orders);
@@ -28,9 +30,10 @@ const orderCtrl = {
         try {
             const order = await Order.find({ status: req.params.status })
                 .populate('orderer')
-                .populate('dishes');
+                .populate('dishes')
+                .sort({ createdAt: -1 });
 
-            console.log(req.params.status)
+            // console.log(req.params.status)
             console.log(order);
             if (!order) {
                 return res.status(404).json("con cai nit!");
