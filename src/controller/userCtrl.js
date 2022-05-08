@@ -19,19 +19,19 @@ const userCtrl = {
                 return res.send({ err: 2007 });
             }
 
-            // const validPassword = await bcrypt.compare(
-            //     req.body.password, // mat khau cua client gui den
-            //     user.password // mat khau da duoc ma hoa trong csdl
-            // );
-            // console.log(validPassword)
-            // if (!validPassword) {
-            //     return res.send({ err: 2007 });
-            // }
+            const validPassword = await bcrypt.compare(
+                req.body.password, // mat khau cua client gui den
+                user.password // mat khau da duoc ma hoa trong csdl
+            );
+            console.log(validPassword)
+            if (!validPassword) {
+                return res.send({ err: 2007 });
+            }
 
             if (!user.isActive) {
                 return res.send({ err: 2001 });
             }
-            if (!user.isLock) return res.send({ err: 2001 });
+            if (user.isLock) return res.send({ err: 2001 });
             return res.status(200).json(user)
         } catch (error) {
             return res.status(500).json(error);

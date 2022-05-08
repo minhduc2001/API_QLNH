@@ -7,6 +7,7 @@ const initOrderRoute = (app) => {
     router.get('/orders', orderCtrl.getAllOrder);
 
     router.get('/orders/status/:status', orderCtrl.getOderByStatus);
+    router.get('/orders/c-id/:c_id', orderCtrl.getOrdersByClient)
 
     router.get('/orders/:id', orderCtrl.getOrder);
 

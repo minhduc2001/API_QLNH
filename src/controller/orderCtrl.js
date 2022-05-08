@@ -13,6 +13,17 @@ const orderCtrl = {
             return res.status(500).json(error);
         }
     },
+    getOrdersByClient: async(req, res) => {
+        try {
+            const orders = await Order.find({ orderer: req.params.c_id });
+
+
+            return res.status(200).json(orders);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+
+    },
     getOderByStatus: async(req, res) => {
         try {
             const order = await Order.find({ status: req.params.status })
